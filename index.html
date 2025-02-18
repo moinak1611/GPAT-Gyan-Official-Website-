@@ -212,13 +212,55 @@
     }
     .subject-card:hover {
       transform: scale(1.05);
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 8px rgb(0, 0, 0);
     }
     .subject-card i {
       font-size: 3rem;
       color: var(--dark-red);
       margin-bottom: 15px;
     }
+  
+  .join-classes-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+  }
+
+  .join-classes-box {
+    background: #b00e05; /* Highlighted yellow background */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgb(16, 16, 16);
+    text-align: center;
+    width: 300px; /* Small box size */
+  }
+
+  .join-classes-box h3 {
+    font-size: 20px;
+    color: #f0f0f0;
+    margin-bottom: 10px;
+  }
+
+  .join-classes-box p {
+    font-size: 16px;
+    color: #f3f3f3;
+  }
+
+  .cta-button {
+    display: inline-block;
+    background: #d3aa25;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+  }
+
+  .cta-button:hover {
+    background: #209b9d;
+  }
+
     /* Class Schedule Trigger Section */
     #class-schedule-link {
       text-align: center;
@@ -244,19 +286,7 @@
       background-color: var(--light-red);
       color: #fff;
     }
-    /* Visitor Counter Frame - Small, Compact */
-    .visitor-counter-frame {
-      border: 2px solid var(--dark-red);
-      padding: 10px;
-      border-radius: 8px;
-      width: 150px;
-      text-align: center;
-      margin: 20px auto;
-    }
-    .visitor-counter {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
+    
     /* Date & Time Section */
     #date-time {
       text-align: center;
@@ -533,15 +563,19 @@
         <p>HAP, Biotechnology &amp; Jurisprudence</p>
       </div>
     </div>
-    <div class="join-classes" style="text-align: center; margin-top: 30px;">
-      <h3><i class="fas fa-user-plus"></i> Join Our Classes</h3>
-      <p>Click the button below to join our classes.</p>
-      <a href="https://chat.whatsapp.com/EnlHw7htUOW6GBxRwsduME" class="cta-button" target="_blank">
-        <i class="fab fa-whatsapp"></i> Join Now
-      </a>
-    </div>
   </section>
 </div>
+    <!-- Join Our Classes Section -->
+<div class="join-classes-container">
+  <div class="join-classes-box">
+    <h3><i class="fas fa-user-plus"></i> Join Our Classes</h3>
+    <p>Click the button below to join our classes.</p>
+    <a href="https://chat.whatsapp.com/EnlHw7htUOW6GBxRwsduME" class="cta-button" target="_blank">
+      <i class="fab fa-whatsapp"></i> Join Now
+    </a>
+  </div>
+</div>
+
 <!-- GPAT Syllabus Section -->
 <div class="container">
     <section id="gpat-syllabus">
@@ -700,16 +734,6 @@
     </div>
   </div>
 
-  <!-- Visitor Counter Section (Small Frame) -->
-  <div class="container">
-    <section id="visitor-counter">
-      <h2 class="section-header"><i class="fas fa-users"></i>Visitor Count</h2>
-      <div class="visitor-counter-frame">
-        <div class="visitor-counter" id="visitor-count">0</div>
-      </div>
-    </section>
-  </div>
-
   <!-- Date & Time Section -->
   <div class="container">
     <section id="date-time">
@@ -785,18 +809,6 @@
     }
     setInterval(updateDateTime, 1000);
     updateDateTime();
-
-    // Real-time Visitor Counter using CountAPI
-    function updateVisitorCount() {
-      fetch('https://api.countapi.xyz/hit/moinak1611.github.io/GPAT-Gyan-Official-Website-/visits')
-        .then(response => response.json())
-        .then(data => {
-          document.getElementById('visitor-count').innerText = data.value;
-        })
-        .catch(error => console.error('Error fetching visitor count:', error));
-    }
-    updateVisitorCount();
-    setInterval(updateVisitorCount, 10000); // Update every 10 seconds
 
     // Back to Top Button Script
     var backToTopButton = document.getElementById("backToTop");
