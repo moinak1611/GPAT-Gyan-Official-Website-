@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+</style>
   <meta charset="UTF-8" />
   <title>GPAT Gyan - Advanced Learning Platform</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -770,7 +771,6 @@
   <!-- Footer -->
   <footer class="footer">
     <p>&copy; 2025 GPAT Gyan. All Rights Reserved.</p>
-    <p>Designed &amp; Maintained by Akash Chandra</p>
   </footer>
 
   <script>
@@ -825,6 +825,28 @@
       document.documentElement.scrollTop = 0;
     }
   </script>
+
+<!-- Last Updated Section -->
+<footer style="display: flex; justify-content: space-between; padding: 10px; font-size: 14px; color: #555;">
+  <div id="last-updated" style="text-align: left;">
+    Last Updated On: <span id="update-date"></span>
+  </div>
+  <div style="text-align: right;">
+    Designed & Maintained by <b>Akash Chandra</b>
+  </div>
+</footer>
+
+<!-- JavaScript to Update Date Dynamically -->
+<script>
+  function updateLastUpdatedDate() {
+    let today = new Date();
+    let formattedDate = today.toLocaleDateString('en-GB', { 
+      day: '2-digit', month: '2-digit', year: 'numeric' 
+    });
+    document.getElementById('update-date').textContent = formattedDate;
+  }
+  updateLastUpdatedDate();
+</script>
 
   <!-- Welcome Modal -->
   <div id="welcomeModal" class="modal">
