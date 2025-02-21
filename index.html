@@ -92,7 +92,7 @@
       margin: 0 auto;
     }
     .hero h1 {
-      font-size: 3.5rem;
+      font-size: 3rem;
       margin-bottom: 20px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     }
@@ -735,139 +735,245 @@
       </div>
     </div>
   </div>
+
 <!-- Notes Upload and View Section -->
-<section class="container" id="notes-section" style="text-align: center; margin: auto; width: 50%; padding: 20px; border: 3px solid darkyellow; background-color: rgba(219, 171, 14, 0.573); border-radius: 10px; box-shadow: 5px 5px 15px rgb(12, 12, 12);">
-    <h2 class="section-header">📚 </b>GPAT Gyan Study Notes</b> 🎓</h2>
-    
-    <!-- Security Key Entry -->
-    <div id="security-key-section">
-        <h3>Enter Security Key (Admin / Student)</h3>
-        <input type="password" id="security-key" placeholder="Security Key">
-        <input type="checkbox" onclick="togglePassword()"> Show Key
-        <button onclick="validateKey()">Submit</button>
-    </div>
-    
-    <!-- Admin Section (Hidden Initially) -->
-    <div id="admin-section" style="display: none;">
-        <h3>Admin Panel</h3>
-        <button onclick="toggleUploadSection()">Upload Notes</button>
-        <button onclick="toggleDeleteSection()">Delete Notes</button>
-        
-        <!-- Upload Notes Section -->
-        <div id="admin-upload" style="display: none;">
-            <h3>Upload Notes</h3>
-            <label for="subject">Select Subject:</label>
-            <select id="subject">
-                <option value="Pharmaceutical Chemistry">Pharmaceutical Chemistry</option>
-                <option value="Pharmacology">Pharmacology</option>
-                <option value="Pharmaceutics">Pharmaceutics</option>
-                <option value="Pharmacognosy">Pharmacognosy</option>
-                <option value="Allied Subjects">Allied Subjects</option>
-            </select>
-            <input type="file" id="upload-notes" accept="*">
-            <button onclick="uploadNotes()">Upload</button>
-        </div>
-        
-        <!-- Delete Notes Section -->
-        <div id="admin-delete" style="display: none;">
-            <h3>Delete Notes</h3>
-            <div id="notes-list"></div>
-        </div>
+<section class="gpat-gyan-study-notes" id="notes-section" style="text-align: center; margin: auto; width: 50%; padding: 20px; border: 3px solid darkyellow; background-color: rgba(219, 171, 14, 0.573); border-radius: 10px; box-shadow: 5px 5px 15px rgb(12, 12, 12);"><h2 class="section-header">📚 </b>GPAT Gyan Study Notes</b> 🎓</h2>
+  <!-- Security Key Input -->
+  <div id="security-key-section">
+    <h3>Enter Security Key (Admin / Student):</h3>
+    <input type="password" id="security-key" placeholder="security key">
+    <input type="checkbox" onclick="togglePassword()"> Show Key
+    <button onclick="validateKey()">Submit</button>
+  </div>
+
+  <!-- Admin Section -->
+  <div id="admin-section" style="display: none;">
+    <h2>Admin Panel</h2>
+    <button onclick="toggleUploadSection()">Upload</button>
+    <button onclick="toggleDeleteSection()">Delete</button>
+
+    <!-- Upload Section -->
+    <div id="admin-upload" style="display: none;">
+      <h3>Upload Notes</h3>
+      <select id="subject">
+        <option value="Pharmacology">Pharmacology</option>
+        <option value="Pharmaceutics">Pharmaceutics</option>
+        <option value="Pharmaceutical Chemistry">Pharmaceutical Chemistry</option>
+        <option value="Pharmacognosy">Pharmacognosy</option>
+        <option value="Allied Subjects">Allied Subjects</option>
+      </select>
+      <input type="file" id="upload-notes" multiple>
+      <button onclick="uploadNotes()">Upload</button>
     </div>
 
-    <!-- Student View Section (Hidden Initially) -->
-    <div id="notes-container" style="display: none;">
-        <h3>Available Notes</h3>
-        <div id="notes-list-student"></div>
+    <!-- Delete Section -->
+    <div id="admin-delete" style="display: none;">
+      <h3>Delete Notes</h3>
+      <div id="notes-list"></div>
+      <button onclick="deleteSelectedNotes()">Delete Selected</button>
     </div>
+
+    <!-- Admin Notes View -->
+    <div id="admin-notes-list"></div>
+  </div>
+
+  <!-- Student View -->
+  <div id="notes-container" style="display: none;">
+    <h2>Study Notes</h2>
+    <div id="notes-list-student"></div>
+  </div>
 </section>
 
 <script>
-    let notes = JSON.parse(localStorage.getItem("notes")) || [];
-    let isAdmin = false;
+  let db;
+  let isAdmin = false;
 
-    function togglePassword() {
+  // Initialize IndexedDB
+  const initDB = () => {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open('NotesDB', 1);
+
+      request.onupgradeneeded = (event) => {
+        db = event.target.result;
+        if (!db.objectStoreNames.contains('notes')) {
+          const store = db.createObjectStore('notes', { keyPath: 'id', autoIncrement: true });
+          store.createIndex('subject', 'subject', { unique: false });
+        }
+      };
+
+      request.onsuccess = (event) => {
+        db = event.target.result;
+        resolve();
+      };
+
+      request.onerror = (event) => {
+        reject('IndexedDB error: ' + event.target.error);
+      };
+    });
+  };
+
+  // Database operations
+  const dbOperation = (operation, storeName, data) => {
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction([storeName], 'readwrite');
+      const store = transaction.objectStore(storeName);
+      
+      let request;
+      switch(operation) {
+        case 'add':
+          request = store.add(data);
+          break;
+        case 'getAll':
+          request = store.getAll();
+          break;
+        case 'delete':
+          request = store.delete(data);
+          break;
+        default:
+          reject('Invalid operation');
+      }
+
+      request.onsuccess = () => resolve(operation === 'getAll' ? request.result : null);
+      request.onerror = () => reject(request.error);
+    });
+  };
+
+  // Security Key Validation
+  function togglePassword() {
         let passwordField = document.getElementById("security-key");
         passwordField.type = passwordField.type === "password" ? "text" : "password";
     }
 
-    function validateKey() {
-        let key = document.getElementById("security-key").value;
-        if (key === "gg_admin123") {
-            isAdmin = true;
-            document.getElementById("admin-section").style.display = "block";
-            document.getElementById("security-key-section").style.display = "none";
-            displayNotes(true);
-        } else if (key === "ggstudents02") {
-            isAdmin = false;
-            document.getElementById("notes-container").style.display = "block";
-            document.getElementById("security-key-section").style.display = "none";
-            displayNotes(false);
-        } else {
-            alert("Invalid Security Key!");
-        }
+  async function validateKey() {
+    try {
+      await initDB();
+      const key = document.getElementById("security-key").value;
+      if (key === "gg_admin123") {
+        isAdmin = true;
+        document.getElementById("admin-section").style.display = "block";
+        document.getElementById("security-key-section").style.display = "none";
+        displayNotes();
+      } else if (key === "ggstudents02") {
+        isAdmin = false;
+        document.getElementById("notes-container").style.display = "block";
+        document.getElementById("security-key-section").style.display = "none";
+        displayNotes();
+      } else {
+        alert("Invalid Security Key!");
+      }
+    } catch (error) {
+      alert("Database initialization failed: " + error);
     }
+  }
 
-    function toggleUploadSection() {
-        let uploadSection = document.getElementById("admin-upload");
-        uploadSection.style.display = uploadSection.style.display === "none" ? "block" : "none";
+  // File to ArrayBuffer conversion
+  function readFileAsArrayBuffer(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+      reader.readAsArrayBuffer(file);
+    });
+  }
+
+  // Upload Notes
+  async function uploadNotes() {
+    try {
+      const subject = document.getElementById("subject").value;
+      const files = document.getElementById("upload-notes").files;
+      
+      if (files.length === 0) {
+        alert("No file selected!");
+        return;
+      }
+
+      for (const file of files) {
+        const arrayBuffer = await readFileAsArrayBuffer(file);
+        const note = {
+          name: file.name,
+          subject: subject,
+          type: file.type,
+          data: arrayBuffer,
+          date: new Date().toLocaleString()
+        };
+        
+        await dbOperation('add', 'notes', note);
+      }
+
+      alert("Notes uploaded successfully!");
+      displayNotes();
+    } catch (error) {
+      alert("Error uploading notes: " + error);
     }
+  }
 
-    function toggleDeleteSection() {
-        let deleteSection = document.getElementById("admin-delete");
-        deleteSection.style.display = deleteSection.style.display === "none" ? "block" : "none";
+  // Delete Notes
+  async function deleteSelectedNotes() {
+    try {
+      const checkboxes = document.querySelectorAll('#notes-list input[type="checkbox"]:checked');
+      for (const checkbox of checkboxes) {
+        const id = parseInt(checkbox.value);
+        await dbOperation('delete', 'notes', id);
+      }
+      displayNotes();
+    } catch (error) {
+      alert("Error deleting notes: " + error);
     }
+  }
 
-    function uploadNotes() {
-        let subject = document.getElementById("subject").value;
-        let uploadedFile = document.getElementById("upload-notes").files[0];
-        if (uploadedFile) {
-            let reader = new FileReader();
-            reader.onload = function(event) {
-                let fileData = event.target.result;
-                let uploadTime = new Date().toLocaleString();
-                let fileName = uploadedFile.name ? uploadedFile.name : "Unknown File";
-                notes.push({ name: fileName, subject: subject, data: fileData, date: uploadTime });
-                localStorage.setItem("notes", JSON.stringify(notes));
-                alert("Notes uploaded successfully!");
-                displayNotes(true);
-            };
-            reader.readAsDataURL(uploadedFile);
-        } else {
-            alert("No file selected!");
-        }
-    }
+  // Display Notes
+  async function displayNotes() {
+    try {
+      const notes = await dbOperation('getAll', 'notes');
+      const notesListAdmin = document.getElementById("admin-notes-list");
+      const notesListStudent = document.getElementById("notes-list-student");
+      
+      notesListAdmin.innerHTML = "";
+      notesListStudent.innerHTML = "";
 
-    function displayNotes(isAdminView) {
-        let notesList = isAdminView ? document.getElementById("notes-list") : document.getElementById("notes-list-student");
-        notesList.innerHTML = "";
-        notes.sort((a, b) => new Date(b.date) - new Date(a.date));
-        notes.forEach((note, index) => {
-            if (note.name && note.data) {
-                let noteItem = document.createElement("div");
-                noteItem.innerHTML = `<strong>${note.subject}</strong> - <a href="${note.data}" download="${note.name}">${note.name}</a> <br> <small>Uploaded on: ${note.date}</small>`;
-                
-                if (isAdminView) {
-                    let deleteButton = document.createElement("button");
-                    deleteButton.innerText = "Delete";
-                    deleteButton.onclick = function() { deleteNote(index); };
-                    noteItem.appendChild(deleteButton);
-                }
-                
-                notesList.appendChild(noteItem);
-            }
+      notes.forEach((note) => {
+        const blob = new Blob([note.data], { type: note.type });
+        const url = URL.createObjectURL(blob);
+        const noteItem = document.createElement("div");
+        noteItem.innerHTML = `
+          <strong>${note.subject}</strong> - 
+          <a href="${url}" download="${note.name}">${note.name}</a><br>
+          <small>Uploaded on: ${note.date}</small>
+        `;
+        notesListAdmin.appendChild(noteItem.cloneNode(true));
+        notesListStudent.appendChild(noteItem.cloneNode(true));
+      });
+
+      if (isAdmin) {
+        const notesListDelete = document.getElementById("notes-list");
+        notesListDelete.innerHTML = "";
+        notes.forEach((note) => {
+          const deleteItem = document.createElement("div");
+          deleteItem.innerHTML = `
+            <input type="checkbox" value="${note.id}">
+            <strong>${note.subject}</strong> - ${note.name} (Uploaded: ${note.date})
+          `;
+          notesListDelete.appendChild(deleteItem);
         });
+      }
+    } catch (error) {
+      alert("Error loading notes: " + error);
     }
+  }
 
-    function deleteNote(index) {
-        if (confirm("Are you sure you want to delete this note?")) {
-            notes.splice(index, 1);
-            localStorage.setItem("notes", JSON.stringify(notes));
-            alert("Note deleted successfully!");
-            displayNotes(true);
-        }
-    }
+  // Toggle Sections
+  function toggleUploadSection() {
+    const uploadSection = document.getElementById("admin-upload");
+    uploadSection.style.display = uploadSection.style.display === "none" ? "block" : "none";
+  }
+
+  function toggleDeleteSection() {
+    const deleteSection = document.getElementById("admin-delete");
+    deleteSection.style.display = deleteSection.style.display === "none" ? "block" : "none";
+  }
 </script>
+
+
 
   <!-- Date & Time Section -->
   <div class="container">
