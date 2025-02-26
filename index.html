@@ -167,6 +167,43 @@
     .section-header i {
       font-size: 1.5rem;
     }
+    /* Notes & Quiz Section */
+    .notes-quiz-section {
+      text-align: center;
+      background: var(--cream);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      margin: 50px auto; /* Centers horizontally */
+      max-width: 600px; /* Keeps it compact */
+      width: 100%;
+    }
+
+    /* Center the Button */
+    .button-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    /* Join Button */
+    .quiz-button {
+      display: inline-block;
+      background: #0088cc; /* Telegram Blue */
+      color: #ffffff;
+      padding: 12px 25px;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .quiz-button:hover {
+      background: #005f99;
+      transform: translateY(-3px);
+    }
+
     /* Welcome Modal (appears on load) */
     #welcomeModal {
       display: none;
@@ -560,6 +597,7 @@
       <li><a href="https://www.instagram.com/gpat_gyan_official2024?utm_source=qr&igsh=MTlyMDliazZtNmti" target="_blank"><i class="fab fa-instagram"></i>Instagram</a></li>
       <li><a href="https://www.facebook.com/share/163ESvEjDE/" target="_blank"><i class="fab fa-facebook-f"></i>Facebook</a></li>
       <li><a href="https://www.linkedin.com/in/gpat-gyan-94a587348?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin-in"></i>LinkedIn</a></li>
+      <li><a href="https://t.me/+R4aih4HZ1bE4NDll" target="_blank"><i class="fab fa-telegram"></i>Telegram</a></li>
     </ul>
   </nav>
 
@@ -603,6 +641,20 @@
       </p>
     </section>
   </div>
+
+  <!-- Notes & Quiz Section -->
+  <div class="container">
+    <section id="notes-quiz" class="notes-quiz-section">
+      <h2 class="section-header"><i class="fas fa-book-reader"></i> Notes & Quiz</h2>
+      <p>Join our Telegram channel to access exclusive study materials, notes, and quizzes.</p>
+      <div class="button-container">
+        <a href="https://t.me/+R4aih4HZ1bE4NDll" class="cta-button quiz-button" target="_blank">
+          <i class="fab fa-telegram"></i> Join Now
+        </a>
+      </div>
+    </section>
+  </div>
+ 
 
 <!-- Subjects & Join Our Classes Section -->
 <div class="container">
