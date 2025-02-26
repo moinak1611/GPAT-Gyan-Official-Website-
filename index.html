@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 </style>
-  <meta name="google-site-verification" content="NDVmNem42bIDkRP3JRpI568FGSrQp9MC6IAck_BZ46g" />
+  <meta charset="UTF-8" />
   <title>GPAT Gyan - Advanced Learning Platform</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <!-- Font Awesome for icons -->
@@ -25,6 +25,7 @@
       background-color: var(--cream);
       color: var(--text-dark);
     }
+    
     /* Navbar */
     .navbar {
       display: flex;
@@ -42,7 +43,7 @@
     .navbar-brand {
       display: flex;
       align-items: center;
-      font-size: 1.5rem;
+      font-size: 1rem;
       font-weight: bold;
     }
     .navbar-brand a {
@@ -52,8 +53,8 @@
       color: var(--text-light);
     }
     .navbar-brand img {
-      width: 180px;
-      height: 180px;
+      width: 100px;
+      height: 100px;
       margin-right: 10px;
       border-radius: 50%;
       object-fit: cover;
@@ -63,20 +64,50 @@
       list-style: none;
     }
     .nav-links li {
-      margin-left: 20px;
+      margin-left: 15px;
+      position: relative;
     }
     .nav-links a {
       color: var(--text-light);
       text-decoration: none;
+      font-size: 0.85rem;
       transition: color 0.3s ease;
     }
     .nav-links a:hover {
       color: #FFD700;
     }
+    /* Dropdown Menu */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: var(--dark-red);
+      min-width: 150px;
+      box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1001;
+    }
+    .dropdown-content a {
+      color: var(--text-light);
+      padding: 10px;
+      display: block;
+      text-decoration: none;
+    }
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+    /* Ensure correct spacing */
+    .nav-links li {
+      margin-left: 10px;
+    }
+
     /* Add icons to nav links */
     .nav-links a i {
       margin-right: 5px;
     }
+
     /* Hero Section */
     .hero {
       background: linear-gradient(rgba(139, 0, 0, 0.8), rgba(139, 0, 0, 0.8)), url('https://via.placeholder.com/1920x1080');
@@ -287,7 +318,33 @@
       background-color: var(--light-red);
       color: #fff;
     }
-    
+
+    /* Style for Information Brochure Section */
+    #information-brochure {
+        text-align: center;
+        margin-top: 40px;
+        padding: 20px;
+        border: 2px solid #8B0000;
+        border-radius: 10px;
+        background-color: #FFF5E1;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 50%;
+    }
+    .cta-button {
+        display: inline-block;
+        background-color: #FFD700; /* Dark Yellow */
+        color: #000000; /* Dark Black */
+        padding: 12px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+    .cta-button:hover {
+        background-color: #FFC400;
+        transform: scale(1.05);
+    }
+
     /* Date & Time Section */
     #date-time {
       text-align: center;
@@ -324,6 +381,7 @@
       padding: 20px;
       font-size: 13px;
     }
+
     /* Modal Styles */
     .modal {
       display: none;
@@ -492,8 +550,11 @@
     </div>
     <ul class="nav-links">
       <li><a href="#about"><i class="fas fa-info-circle"></i>About</a></li>
-      <li><a href="#subjects"><i class="fas fa-book-open"></i>Subjects</a></li>
       <li><a href="#contact"><i class="fas fa-phone-alt"></i>Contact</a></li>
+
+      <!-- New Batch Information -->
+      <li><a href="javascript:void(0);" onclick="openModal('batchModal')"><i class="fas fa-graduation-cap"></i> New Batch</a></li>
+    
       <!-- Social Media Links with icons -->
       <li><a href="https://chat.whatsapp.com/EnlHw7htUOW6GBxRwsduME" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
       <li><a href="https://www.instagram.com/gpat_gyan_official2024?utm_source=qr&igsh=MTlyMDliazZtNmti" target="_blank"><i class="fab fa-instagram"></i>Instagram</a></li>
@@ -502,10 +563,19 @@
     </ul>
   </nav>
 
+  <!-- New Batch Information Modal -->
+<div id="batchModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal('batchModal')">&times;</span>
+    <h2>New Batch Information</h2>
+    <p>Update Soon!</p>
+  </div>
+</div>
+
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>GPAT Gyan: Cheers For The Success</h1>
+      <h1>GPAT Gyan: Your Target, Our Focus</h1>
       <p>Comprehensive Preparation for GPAT, NIPER JEE, and CUET PG Examinations</p>
       <a href="#contact" class="cta-button">Get Started</a>
     </div>
@@ -537,7 +607,7 @@
 <!-- Subjects & Join Our Classes Section -->
 <div class="container">
   <section id="subjects-classes">
-    <h2 class="section-header"><i class="fas fa-book-open"></i><b>Subjects</b></h2>
+    <h2 class="section-header"><i class="fas fa-book-open"></i>Subjects</h2>
     <div class="subjects-grid">
       <div class="subject-card" onclick="openModal('modal-pharmacology')">
         <i class="fas fa-capsules"></i>
@@ -567,7 +637,7 @@
     </div>
   </section>
 </div>
-    <!-- Join Our Classes Section -->
+<!-- Join Our Classes Section -->
 <div class="join-classes-container">
   <div class="join-classes-box">
     <h3><i class="fas fa-user-plus"></i> Join Our Classes</h3>
@@ -735,6 +805,19 @@
       </div>
     </div>
   </div>
+
+<!-- Information Brochure Section -->
+<div class="container" style="display: flex; justify-content: center; align-items: center; flex-direction: column;">
+  <section id="information-brochure">
+      <h2 class="section-header" style="text-align: center;"><i class="fas fa-file-pdf"></i> Information Brochure</h2>
+      <p style="text-align: center;">Click the button below to view the official Information Brochure.</p>
+      <a href="information_brochure.pdf" class="cta-button" target="_blank" style="display: block; text-align: center;">
+          <i class="fas fa-download"></i> View Brochure
+      </a>
+  </section>
+</div>
+
+
 
 <!-- Notes Upload and View Section -->
 <section class="gpat-gyan-study-notes" id="notes-section" style="text-align: center; margin: auto; width: 50%; padding: 20px; border: 3px solid darkyellow; background-color: rgba(219, 171, 14, 0.573); border-radius: 10px; box-shadow: 5px 5px 15px rgb(12, 12, 12);"><h2 class="section-header">📚 </b>GPAT Gyan Study Notes</b> 🎓</h2>
@@ -1007,6 +1090,7 @@
       </div>
     </section>
   </div>
+  
 
 <!-- Footer -->
   <footer class="footer">
