@@ -1301,58 +1301,25 @@
     <p>Designed & Managed by <b>Akash Chandra</b></p>
   </footer>
 
-  <script>
-    // Open modal function
-    function openModal(modalId) {
-      document.getElementById(modalId).style.display = 'block';
-    }
-    // Close modal function
-    function closeModal(modalId) {
-      document.getElementById(modalId).style.display = 'none';
-    }
-    // Close modal if clicked outside modal content
-    window.onclick = function(event) {
-      var modals = document.getElementsByClassName('modal');
-      for (var i = 0; i < modals.length; i++) {
-        if (event.target === modals[i]) {
-          modals[i].style.display = 'none';
-        }
-      }
-    };
+<!-- Back to Top Button -->
+<button onclick="topFunction()" id="backToTop" title="Back to Top" style="display: none; position: fixed; bottom: 30px; right: 30px; z-index: 1000; background-color: #8B0000; color: white; border: none; padding: 10px 15px; font-size: 16px; border-radius: 5px; cursor: pointer;">▲</button>
 
-    // Welcome Modal: Open on page load
-    window.onload = function() {
-      openModal('welcomeModal');
-      updateDateTime();
-    };
-
-    // Real-Time Date & Time Update
-    function updateDateTime() {
-      var now = new Date();
-      var options = { 
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric',
-        hour: 'numeric', minute: 'numeric', second: 'numeric'
-      };
-      document.getElementById("dateTimeDisplay").innerText = now.toLocaleDateString('en-US', options);
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-
-    // Back to Top Button Script
+<script>
+  window.onscroll = function() { scrollFunction(); };
+  
+  function scrollFunction() {
     var backToTopButton = document.getElementById("backToTop");
-    window.onscroll = function() {scrollFunction();};
-    function scrollFunction() {
-      if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        backToTopButton.style.display = "block";
-      } else {
-        backToTopButton.style.display = "none";
-      }
+    if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+      backToTopButton.style.display = "block";
+    } else {
+      backToTopButton.style.display = "none";
     }
-    function topFunction() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  </script>
+  }
+
+  function topFunction() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
 
 <!-- Last Updated Section -->
 <footer>
