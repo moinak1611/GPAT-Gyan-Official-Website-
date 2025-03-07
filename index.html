@@ -627,7 +627,94 @@
       </p>
     </section>
   </div>
+<!-- News and Updates Section -->
+<div class="news-container">
+  <h2 style="color: darkred;">News & Updates</h2>
+  <div class="news-wrapper">
+    <div id="news-list" class="news-list"></div>
+  </div>
+</div>
+<style>
+  .news-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    background: rgb(255, 255, 255);
+    border-radius: 8px;
+    overflow: hidden;
+    height: 250px; /* Increased height */
+    position: relative;
+    text-align: center; /* Center align text */
+  }
+  .news-wrapper {
+    height: 200px; /* Increased height */
+    overflow: hidden;
+    position: relative;
+  }
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    width: 100%;
+    align-items: center; /* Center align news items */
+    animation: moveNews 15s linear infinite; /* Slower animation */
+  }
+  .news-item {
+    background: #ffeeba;
+    padding: 10px;
+    margin: 5px 0;
+    border-left: 5px solid #ff9800;
+    display: flex;
+    align-items: center;
+    width: 80%; /* Adjust width for better centering */
+    box-sizing: border-box;
+    opacity: 0; /* Start with invisible items */
+    transform: translateY(20px); /* Start slightly below */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  }
+  .news-item.visible {
+    opacity: 1; /* Make news item visible */
+    transform: translateY(0); /* Move to original position */
+  }
+  .news-item .new-icon {
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 5px;
+    margin-right: 10px;
+    border-radius: 3px;
+  }
+  @keyframes moveNews {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+  }
+</style>
+<script>
+  function addNewsItem(text) {
+    const newsList = document.getElementById("news-list");
+    const newsItem = document.createElement("div");
+    newsItem.classList.add("news-item");
+    newsItem.innerHTML = `<span class='new-icon'>NEW</span> ${text}`;
+    newsList.appendChild(newsItem);
 
+    // Make the news item visible after adding it
+    setTimeout(() => {
+      newsItem.classList.add("visible");
+    }, 100);
+  }
+
+  // Add initial news items
+  document.addEventListener("DOMContentLoaded", function () {
+    addNewsItem("Important Update: GPAT 2025 exam schedule released.");
+    addNewsItem("New Batch: Update Soon!.");
+   
+
+    // Add more news items dynamically after a delay
+    setTimeout(() => {
+      
+    }, 5000); // Add a new item after 5 seconds
+  });
+</script>
   <!-- Online Classes Section -->
   <div class="container">
     <section id="online-classes" class="frame">
@@ -1105,95 +1192,6 @@
     const deleteSection = document.getElementById("admin-delete");
     deleteSection.style.display = deleteSection.style.display === "none" ? "block" : "none";
   }
-</script>
-
-<!-- News and Updates Section -->
-<div class="news-container">
-  <h2 style="color: darkred;">News & Updates</h2>
-  <div class="news-wrapper">
-    <div id="news-list" class="news-list"></div>
-  </div>
-</div>
-<style>
-  .news-container {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    background: rgb(255, 255, 255);
-    border-radius: 8px;
-    overflow: hidden;
-    height: 250px; /* Increased height */
-    position: relative;
-    text-align: center; /* Center align text */
-  }
-  .news-wrapper {
-    height: 200px; /* Increased height */
-    overflow: hidden;
-    position: relative;
-  }
-  .news-list {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    width: 100%;
-    align-items: center; /* Center align news items */
-    animation: moveNews 15s linear infinite; /* Slower animation */
-  }
-  .news-item {
-    background: #ffeeba;
-    padding: 10px;
-    margin: 5px 0;
-    border-left: 5px solid #ff9800;
-    display: flex;
-    align-items: center;
-    width: 80%; /* Adjust width for better centering */
-    box-sizing: border-box;
-    opacity: 0; /* Start with invisible items */
-    transform: translateY(20px); /* Start slightly below */
-    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-  }
-  .news-item.visible {
-    opacity: 1; /* Make news item visible */
-    transform: translateY(0); /* Move to original position */
-  }
-  .news-item .new-icon {
-    background: red;
-    color: white;
-    font-size: 12px;
-    padding: 2px 5px;
-    margin-right: 10px;
-    border-radius: 3px;
-  }
-  @keyframes moveNews {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(-100%); }
-  }
-</style>
-<script>
-  function addNewsItem(text) {
-    const newsList = document.getElementById("news-list");
-    const newsItem = document.createElement("div");
-    newsItem.classList.add("news-item");
-    newsItem.innerHTML = `<span class='new-icon'>NEW</span> ${text}`;
-    newsList.appendChild(newsItem);
-
-    // Make the news item visible after adding it
-    setTimeout(() => {
-      newsItem.classList.add("visible");
-    }, 100);
-  }
-
-  // Add initial news items
-  document.addEventListener("DOMContentLoaded", function () {
-    addNewsItem("Important Update: GPAT 2025 exam schedule released.");
-    addNewsItem("New Batch: Update Soon!.");
-   
-
-    // Add more news items dynamically after a delay
-    setTimeout(() => {
-      
-    }, 5000); // Add a new item after 5 seconds
-  });
 </script>
 
   <!-- Date & Time Section -->
