@@ -79,19 +79,30 @@
     .nav-links a:hover {
       color: #FFD700;
     }
-    /* Grievance and New Batch Button */
-    .new-batch, .grievance {
-        background: linear-gradient(135deg, #f39c12, #e74c3c);
-        padding: 10px 20px;
-        border-radius: 25px;
-        color: white !important;
-    }
-
-    .new-batch:hover, .grievance:hover {
-        background: linear-gradient(135deg, #e74c3c, #f39c12);
-        transform: scale(1.1);
-    }
-
+     /* Grievance and New Batch Button - Smaller Size */
+     .new-batch, .grievance {
+         background: linear-gradient(135deg, #f39c12, #e74c3c);
+         padding: 6px 12px; /* Reduced padding for a smaller size */
+         border-radius: 15px; /* Adjusted border radius */
+         font-size: 14px; /* Smaller font */
+         color: white !important;
+         text-decoration: none;
+         display: inline-flex;
+         align-items: center;
+         gap: 5px;
+         transition: all 0.3s ease-in-out;
+     }
+     
+     /* Icon Size Adjustment */
+     .new-batch i, .grievance i {
+         font-size: 16px; /* Smaller icon */
+     }
+     
+     /* Hover Effects */
+     .new-batch:hover, .grievance:hover {
+         background: linear-gradient(135deg, #e74c3c, #f39c12);
+         transform: scale(1.05); /* Subtle scaling */
+     }
     /* Social Media Icons */
     .social-icons {
         list-style: none;
