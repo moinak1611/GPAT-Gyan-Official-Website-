@@ -79,6 +79,58 @@
     .nav-links a:hover {
       color: #FFD700;
     }
+    /* Grievance and New Batch Button */
+    .new-batch, .grievance {
+        background: linear-gradient(135deg, #f39c12, #e74c3c);
+        padding: 10px 20px;
+        border-radius: 25px;
+        color: white !important;
+    }
+
+    .new-batch:hover, .grievance:hover {
+        background: linear-gradient(135deg, #e74c3c, #f39c12);
+        transform: scale(1.1);
+    }
+
+    /* Social Media Icons */
+    .social-icons {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        padding: 10px 0;
+    }
+
+    .social-icons li a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        font-size: 20px;
+        color: white;
+        transition: all 0.3s ease-in-out;
+    }
+
+    /* Social Media Background Colors */
+    .whatsapp { background: #25D366; }
+    .instagram { background: #E1306C; }
+    .facebook { background: #1877F2; }
+    .linkedin { background: #0077B5; }
+    .youtube { background: #FF0000; }
+
+    /* Hover Effects */
+    .social-icons li a:hover {
+        transform: scale(1.2);
+        filter: brightness(1.2);
+    }
+
+    /* Icon Animation */
+    @keyframes pop {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+    }
     /* Dropdown Menu */
     .dropdown {
       position: relative;
@@ -580,19 +632,27 @@
     </a>
     </div>
     <ul class="nav-links">
-      <li><a href="#about"><i class="fas fa-info-circle"></i>About</a></li>
-      <li><a href="#contact"><i class="fas fa-phone-alt"></i>Contact</a></li>
-
-      <!-- New Batch Information -->
-      <li><a href="javascript:void(0);" onclick="openModal('batchModal')"><i class="fas fa-graduation-cap"></i> New Batch</a></li>
+        <li><a href="#about"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="#contact"><i class="fas fa-phone-alt"></i> Contact</a></li>
     
-      <!-- Social Media Links with icons -->
-      <li><a href="https://chat.whatsapp.com/EnlHw7htUOW6GBxRwsduME" target="_blank"><i class="fab fa-whatsapp"></i>WhatsApp</a></li>
-      <li><a href="https://www.instagram.com/gpat_gyan_official2024?utm_source=qr&igsh=MTlyMDliazZtNmti" target="_blank"><i class="fab fa-instagram"></i>Instagram</a></li>
-      <li><a href="https://www.facebook.com/share/163ESvEjDE/" target="_blank"><i class="fab fa-facebook-f"></i>Facebook</a></li>
-      <li><a href="https://www.linkedin.com/in/gpat-gyan-94a587348?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank"><i class="fab fa-linkedin-in"></i>LinkedIn</a></li>
-      <li><a href="https://youtube.com/@gpatgyanofficial?si=BjajZBaDU4snNlcO" target="_blank"><i class="fab fa-youtube"></i>YouTube</a></li>
-      <li><a href="https://forms.gle/qiyN5stam4pHGGHF8" target="_blank"><i class="fas fa-bullhorn"></i>Your Grievance</a></li>
+        <!-- New Batch Information -->
+        <li><a href="javascript:void(0);" onclick="openModal('batchModal')" class="new-batch">
+            <i class="fas fa-graduation-cap"></i> New Batch
+        </a></li>
+    
+        <!-- Grievance Section -->
+        <li><a href="https://forms.gle/qiyN5stam4pHGGHF8" target="_blank" class="grievance">
+            <i class="fas fa-bullhorn"></i> Your Grievance
+        </a></li>
+    </ul>
+    
+    <!-- Social Media Icons -->
+    <ul class="social-icons">
+        <li><a href="https://chat.whatsapp.com/EnlHw7htUOW6GBxRwsduME" target="_blank" class="whatsapp"><i class="fab fa-whatsapp"></i></a></li>
+        <li><a href="https://www.instagram.com/gpat_gyan_official2024?utm_source=qr&igsh=MTlyMDliazZtNmti" target="_blank" class="instagram"><i class="fab fa-instagram"></i></a></li>
+        <li><a href="https://www.facebook.com/share/163ESvEjDE/" target="_blank" class="facebook"><i class="fab fa-facebook-f"></i></a></li>
+        <li><a href="https://www.linkedin.com/in/gpat-gyan-94a587348?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" class="linkedin"><i class="fab fa-linkedin-in"></i></a></li>
+        <li><a href="https://youtube.com/@gpatgyanofficial?si=BjajZBaDU4snNlcO" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a></li>
     </ul>
   </nav>
 
