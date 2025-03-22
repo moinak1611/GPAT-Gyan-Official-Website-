@@ -142,6 +142,79 @@
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.2); }
     }
+
+    /* Chatbot Styling */
+    #chatbot-container {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 1000;
+        cursor: grab;
+    }
+    #chatbot-toggle {
+        background-color: #8B0000;
+        color: white;
+        padding: 15px;
+        border: none;
+        cursor: pointer;
+        font-size: 18px;
+        border-radius: 50px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    #chatbot-toggle i {
+        font-size: 24px;
+    }
+    #chatbot {
+        display: none;
+        width: 280px;
+        background-color: white;
+        border: 1px solid #8B0000;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        position: absolute;
+        bottom: 60px;
+        right: 20px;
+    }
+    #chatbot-header {
+        background-color: #8B0000;
+        color: white;
+        padding: 10px;
+        text-align: center;
+        font-size: 16px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    #chatbot-header .close-btn {
+        cursor: pointer;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    #chatbot-messages {
+        padding: 10px;
+        height: 200px;
+        overflow-y: auto;
+        border-bottom: 1px solid #8B0000;
+    }
+    #chatbot-input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        outline: none;
+        font-size: 14px;
+    }
+    .chatbot-message {
+        padding: 5px;
+        margin: 5px 0;
+    }
+    .chatbot-reply {
+        background-color: #FFF5E1;
+        padding: 5px;
+        border-radius: 5px;
+    }
     /* Dropdown Menu */
     .dropdown {
       position: relative;
@@ -1371,7 +1444,59 @@
       </div>
     </section>
   </div>
-  
+ 
+<!-- Chatbot System -->
+<div id="chatbot-container" style="left: 20px; bottom: 20px; position: fixed;">
+  <button id="chatbot-toggle" onclick="toggleChatbot()">
+      <i class="fas fa-comment-dots"></i> Chat with Us
+  </button>
+  <div id="chatbot">
+      <div id="chatbot-header">Chatbot <span onclick="toggleChatbot()" class="close-btn">&times;</span></div>
+      <div id="chatbot-messages"></div>
+      <input type="text" id="chatbot-input" placeholder="Type your message..." onkeypress="handleChat(event)">
+  </div>
+</div>
+
+<script>
+// Website-specific responses
+const websiteResponses = {
+  "hello": "Hi! How can I assist you today?",
+  "hi": "Hello! How can I assist you today?",
+  "about": "This website provides GPAT study materials, blogs, and updates.",
+  "contact": "You can reach us via email at support@gpatgyan.com.",
+  "courses": "We offer various GPAT preparation courses. Check the courses section!",
+  "gpat": "GPAT (Graduate Pharmacy Aptitude Test) is an entrance exam for pharmacy students.",
+  "default": "I'm here to assist! Please ask about the website, courses, or GPAT-related information."
+};
+
+// Toggle Chatbot
+function toggleChatbot() {
+  let chatbot = document.getElementById("chatbot");
+  chatbot.style.display = chatbot.style.display === "none" ? "block" : "none";
+}
+
+// Handle Chat and Determine Response Source
+function handleChat(event) {
+  if (event.key === "Enter") {
+      let input = document.getElementById("chatbot-input");
+      let message = input.value.trim().toLowerCase();
+      if (message) {
+          let chatMessages = document.getElementById("chatbot-messages");
+          chatMessages.innerHTML += `<div class='chatbot-message'>You: ${message}</div>`;
+          input.value = "";
+          
+          if (websiteResponses[message]) {
+              chatMessages.innerHTML += `<div class='chatbot-message chatbot-reply'>Chatbot: ${websiteResponses[message]}</div>`;
+          } else {
+              let googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(message)}`;
+              chatMessages.innerHTML += `<div class='chatbot-message chatbot-reply'>Chatbot: <a href='${googleSearchUrl}' target='_blank'>Click here to see search results</a></div>`;
+          }
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+  }
+}
+</script>
+
 
 <!-- Footer -->
   <footer class="footer">
@@ -1435,6 +1560,9 @@
   function topFunction() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
+</script>
+
+
 </script>
 
 <!-- Last Updated Section -->
