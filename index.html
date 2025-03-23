@@ -1096,242 +1096,44 @@
   </section>
 </div>
 
-
-
 <!-- Notes Upload and View Section -->
-<section class="gpat-gyan-study-notes" id="notes-section" style="text-align: center; margin: auto; width: 50%; padding: 20px; border: 3px solid darkyellow; background-color: rgba(219, 171, 14, 0.573); border-radius: 10px; box-shadow: 5px 5px 15px rgb(12, 12, 12);"><h2 class="section-header">📚 </b>GPAT Gyan Study Notes</b> 🎓</h2>
+<section class="gpat-gyan-study-notes" id="notes-section" style="text-align: center; margin: auto; width: 50%; padding: 20px; border: 3px solid #B22222; background-color: rgba(219, 171, 14, 0.9); border-radius: 15px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4); font-family: 'Arial', sans-serif;">
+  <h2 class="section-header" style="color: #8B0000; font-size: 24px; margin-bottom: 30px;">📚 <b>GPAT Gyan Study Notes</b> 🎓</h2>
+  
   <!-- Security Key Input -->
-  <div id="security-key-section">
-    <h3><b>Enter Security Key (Admin / Student)</b></h3>
-    <input type="password" id="security-key" placeholder="security key">
-    <input type="checkbox" onclick="togglePassword()"> Show Key
-    <button onclick="validateKey()">Submit</button>
+  <div id="security-key-section" style="padding: 20px; background: #FFF8DC; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); margin-bottom: 40px;">
+    <h3 style="color: #8B0000; margin-bottom: 20px;"><b>Enter Security Key (Admin / Student)</b></h3>
+    <input type="password" id="security-key" placeholder="Security key" style="padding: 10px; border: 2px solid #8B0000; border-radius: 5px; font-size: 16px;">
+    <input type="checkbox" onclick="togglePassword()" style="margin-left: 10px;"> Show Key
+    <br><br>
+    <button onclick="validateKey()" style="background: #8B0000; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Submit</button>
   </div>
 
-  <!-- Admin Section -->
-  <div id="admin-section" style="display: none;">
-    <h2>Admin Panel</h2>
-    <button onclick="toggleUploadSection()">Upload</button>
-    <button onclick="toggleDeleteSection()">Delete</button>
-
-    <!-- Upload Section -->
-    <div id="admin-upload" style="display: none;">
-      <h3>Upload Notes</h3>
-      <select id="subject">
-        <option value="Pharmacology">Pharmacology</option>
-        <option value="Pharmaceutics">Pharmaceutics</option>
-        <option value="Pharmaceutical Chemistry">Pharmaceutical Chemistry</option>
-        <option value="Pharmacognosy">Pharmacognosy</option>
-        <option value="Allied Subjects">Allied Subjects</option>
-      </select>
-      <input type="file" id="upload-notes" multiple>
-      <button onclick="uploadNotes()">Upload</button>
-    </div>
-
-    <!-- Delete Section -->
-    <div id="admin-delete" style="display: none;">
-      <h3>Delete Notes</h3>
-      <div id="notes-list"></div>
-      <button onclick="deleteSelectedNotes()">Delete Selected</button>
-    </div>
-
-    <!-- Admin Notes View -->
-    <div id="admin-notes-list"></div>
-  </div>
-
-  <!-- Student View -->
-  <div id="notes-container" style="display: none;">
-    <h2>Study Notes</h2>
-    <div id="notes-list-student"></div>
+  <!-- Notes Access Section -->
+  <div id="notes-access-section" style="display: none; padding: 20px; margin-top: 20px; background: #FFF8DC; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);">
+    <h2 style="color: #8B0000; margin-bottom: 20px;">Access Study Notes</h2>
+    <button onclick="accessDrive()" style="background: #B22222; color: #FFF8DC; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Click To Visit</button>
   </div>
 </section>
 
 <script>
-  let db;
-  let isAdmin = false;
-
-  // Initialize IndexedDB
-  const initDB = () => {
-    return new Promise((resolve, reject) => {
-      const request = indexedDB.open('NotesDB', 1);
-
-      request.onupgradeneeded = (event) => {
-        db = event.target.result;
-        if (!db.objectStoreNames.contains('notes')) {
-          const store = db.createObjectStore('notes', { keyPath: 'id', autoIncrement: true });
-          store.createIndex('subject', 'subject', { unique: false });
-        }
-      };
-
-      request.onsuccess = (event) => {
-        db = event.target.result;
-        resolve();
-      };
-
-      request.onerror = (event) => {
-        reject('IndexedDB error: ' + event.target.error);
-      };
-    });
-  };
-
-  // Database operations
-  const dbOperation = (operation, storeName, data) => {
-    return new Promise((resolve, reject) => {
-      const transaction = db.transaction([storeName], 'readwrite');
-      const store = transaction.objectStore(storeName);
-      
-      let request;
-      switch(operation) {
-        case 'add':
-          request = store.add(data);
-          break;
-        case 'getAll':
-          request = store.getAll();
-          break;
-        case 'delete':
-          request = store.delete(data);
-          break;
-        default:
-          reject('Invalid operation');
-      }
-
-      request.onsuccess = () => resolve(operation === 'getAll' ? request.result : null);
-      request.onerror = () => reject(request.error);
-    });
-  };
-
-  // Security Key Validation
   function togglePassword() {
-        let passwordField = document.getElementById("security-key");
-        passwordField.type = passwordField.type === "password" ? "text" : "password";
-    }
+    let passwordField = document.getElementById("security-key");
+    passwordField.type = passwordField.type === "password" ? "text" : "password";
+  }
 
-  async function validateKey() {
-    try {
-      await initDB();
-      const key = document.getElementById("security-key").value;
-      if (key === "gg_admin123") {
-        isAdmin = true;
-        document.getElementById("admin-section").style.display = "block";
-        document.getElementById("security-key-section").style.display = "none";
-        displayNotes();
-      } else if (key === "ggstudents02") {
-        isAdmin = false;
-        document.getElementById("notes-container").style.display = "block";
-        document.getElementById("security-key-section").style.display = "none";
-        displayNotes();
-      } else {
-        alert("Invalid Security Key!");
-      }
-    } catch (error) {
-      alert("Database initialization failed: " + error);
+  function validateKey() {
+    var key = document.getElementById("security-key").value;
+    if (key === "gg_admin123" || key === "ggstudent02") {
+      document.getElementById("security-key-section").style.display = "none";
+      document.getElementById("notes-access-section").style.display = "block";
+    } else {
+      alert("Invalid Security Key! Please try again.");
     }
   }
 
-  // File to ArrayBuffer conversion
-  function readFileAsArrayBuffer(file) {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-      reader.readAsArrayBuffer(file);
-    });
-  }
-
-  // Upload Notes
-  async function uploadNotes() {
-    try {
-      const subject = document.getElementById("subject").value;
-      const files = document.getElementById("upload-notes").files;
-      
-      if (files.length === 0) {
-        alert("No file selected!");
-        return;
-      }
-
-      for (const file of files) {
-        const arrayBuffer = await readFileAsArrayBuffer(file);
-        const note = {
-          name: file.name,
-          subject: subject,
-          type: file.type,
-          data: arrayBuffer,
-          date: new Date().toLocaleString()
-        };
-        
-        await dbOperation('add', 'notes', note);
-      }
-
-      alert("Notes uploaded successfully!");
-      displayNotes();
-    } catch (error) {
-      alert("Error uploading notes: " + error);
-    }
-  }
-
-  // Delete Notes
-  async function deleteSelectedNotes() {
-    try {
-      const checkboxes = document.querySelectorAll('#notes-list input[type="checkbox"]:checked');
-      for (const checkbox of checkboxes) {
-        const id = parseInt(checkbox.value);
-        await dbOperation('delete', 'notes', id);
-      }
-      displayNotes();
-    } catch (error) {
-      alert("Error deleting notes: " + error);
-    }
-  }
-
-  // Display Notes
-  async function displayNotes() {
-    try {
-      const notes = await dbOperation('getAll', 'notes');
-      const notesListAdmin = document.getElementById("admin-notes-list");
-      const notesListStudent = document.getElementById("notes-list-student");
-      
-      notesListAdmin.innerHTML = "";
-      notesListStudent.innerHTML = "";
-
-      notes.forEach((note) => {
-        const blob = new Blob([note.data], { type: note.type });
-        const url = URL.createObjectURL(blob);
-        const noteItem = document.createElement("div");
-        noteItem.innerHTML = `
-          <strong>${note.subject}</strong> - 
-          <a href="${url}" download="${note.name}">${note.name}</a><br>
-          <small>Uploaded on: ${note.date}</small>
-        `;
-        notesListAdmin.appendChild(noteItem.cloneNode(true));
-        notesListStudent.appendChild(noteItem.cloneNode(true));
-      });
-
-      if (isAdmin) {
-        const notesListDelete = document.getElementById("notes-list");
-        notesListDelete.innerHTML = "";
-        notes.forEach((note) => {
-          const deleteItem = document.createElement("div");
-          deleteItem.innerHTML = `
-            <input type="checkbox" value="${note.id}">
-            <strong>${note.subject}</strong> - ${note.name} (Uploaded: ${note.date})
-          `;
-          notesListDelete.appendChild(deleteItem);
-        });
-      }
-    } catch (error) {
-      alert("Error loading notes: " + error);
-    }
-  }
-
-  // Toggle Sections
-  function toggleUploadSection() {
-    const uploadSection = document.getElementById("admin-upload");
-    uploadSection.style.display = uploadSection.style.display === "none" ? "block" : "none";
-  }
-
-  function toggleDeleteSection() {
-    const deleteSection = document.getElementById("admin-delete");
-    deleteSection.style.display = deleteSection.style.display === "none" ? "block" : "none";
+  function accessDrive() {
+    window.location.href = ""; // Replace with actual drive link
   }
 </script>
 
