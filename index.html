@@ -276,6 +276,38 @@
       margin-right: 5px;
     }
 
+     .glowing-link {
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: #fff;
+    position: relative;
+    padding: 8px 15px;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #00c6ff, #0072ff);
+    box-shadow: 0 0 10px #00c6ff, 0 0 20px #0072ff;
+    transition: all 0.3s ease-in-out;
+    }
+
+    .glowing-link:hover {
+      box-shadow: 0 0 20px #00c6ff, 0 0 40px #0072ff;
+      transform: scale(1.05);
+    }
+
+    .glow-text {
+      animation: glow 1.5s infinite alternate;
+    }
+
+    @keyframes glow {
+      from {
+        text-shadow: 0 0 5px #fff, 0 0 10px #00c6ff, 0 0 20px #0072ff;
+      }
+      to {
+        text-shadow: 0 0 10px #fff, 0 0 20px #00c6ff, 0 0 30px #0072ff;
+      }
+    }
+
+
     /* Hero Section */
     .hero {
       background: linear-gradient(rgba(139, 0, 0, 0.8), rgba(139, 0, 0, 0.8)), url('https://via.placeholder.com/1920x1080');
@@ -814,9 +846,11 @@
         <li><a href="https://forms.gle/qiyN5stam4pHGGHF8" target="_blank" class="grievance">
             <i class="fas fa-bullhorn"></i> Your Grievance
         </a></li>
-        <li><a href="https://moinak1611.github.io/GPAT-GYAN_Information_site/" target="_blank" class="grievance">
-            <i class="fas fa-rocket"></i> Information Site
-        </a></li>
+        <li>
+        <a href="https://moinak1611.github.io/GPAT-GYAN_Information_site/" target="_blank" class="grievance glowing-link">
+          <i class="fas fa-rocket"></i> <span class="glow-text">Information Site</span>
+        </a>
+      </li>
     </ul>
     
     <!-- Social Media Icons -->
@@ -1665,6 +1699,7 @@ function handleChat(event) {
   <button onclick="topFunction()" id="backToTop" title="Back to Top"><i class="fas fa-arrow-up"></i></button>
 </body>
 </html>
+
 
 
 
