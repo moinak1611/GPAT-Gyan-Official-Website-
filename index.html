@@ -1235,47 +1235,6 @@
   </section>
 </div>
 
-<!-- Notes Upload and View Section -->
-<section class="gpat-gyan-study-notes" id="notes-section" style="text-align: center; margin: auto; width: 50%; padding: 20px; border: 3px solid #B22222; background-color: rgba(219, 171, 14, 0.9); border-radius: 15px; box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4); font-family: 'Arial', sans-serif;">
-  <h2 class="section-header" style="color: #8B0000; font-size: 24px; margin-bottom: 30px;">📚 <b>GPAT Gyan Study Notes</b> 🎓</h2>
-  
-  <!-- Security Key Input -->
-  <div id="security-key-section" style="padding: 20px; background: #FFF8DC; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2); margin-bottom: 40px;">
-    <h3 style="color: #8B0000; margin-bottom: 20px;"><b>Enter Security Key (Admin / Student)</b></h3>
-    <input type="password" id="security-key" placeholder="Security key" style="padding: 10px; border: 2px solid #8B0000; border-radius: 5px; font-size: 16px;">
-    <input type="checkbox" onclick="togglePassword()" style="margin-left: 10px;"> Show Key
-    <br><br>
-    <button onclick="validateKey()" style="background: #8B0000; color: white; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Submit</button>
-  </div>
-
-  <!-- Notes Access Section -->
-  <div id="notes-access-section" style="display: none; padding: 20px; margin-top: 20px; background: #FFF8DC; border-radius: 10px; box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);">
-    <h2 style="color: #8B0000; margin-bottom: 20px;">Access Study Notes</h2>
-    <button onclick="accessDrive()" style="background: #B22222; color: #FFF8DC; padding: 12px 24px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px;">Click To Visit</button>
-  </div>
-</section>
-
-<script>
-  function togglePassword() {
-    let passwordField = document.getElementById("security-key");
-    passwordField.type = passwordField.type === "password" ? "text" : "password";
-  }
-
-  function validateKey() {
-    var key = document.getElementById("security-key").value;
-    if (key === "gg_admin123" || key === "ggstudent02") {
-      document.getElementById("security-key-section").style.display = "none";
-      document.getElementById("notes-access-section").style.display = "block";
-    } else {
-      alert("Invalid Security Key! Please try again.");
-    }
-  }
-
-  function accessDrive() {
-    window.location.href = "https://drive.google.com/drive/folders/1XyYpQwfZ1AsbQMZoVJOb330p6h8JsO6c?usp=sharing"; // Replace with actual drive link
-  }
-</script>
-
 <!-- Payment Management System Section -->
 <div class="pms-container">
   <h3>Payment Management System</h3>
